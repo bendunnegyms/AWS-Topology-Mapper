@@ -7,9 +7,13 @@
 **python 3.8.5** 
 
 ## Commands to execute
-* To run the Django server:
-	Run `source bin/activate`, or `activate` on windows in a console window opened inside *env* will enter the virtual environment with all dependencies pre-installed. 
-	`cd serversidesrc` to navigate to the correct directory.
+* To set up and run the Django server:
+	`pip install virtualenv` to install the virtual environment creator(probably already have it with your python installation).
+	`python3 -m venv env` to create a virtual environment on your machine (all of you should have Windows 10 from my memory).
+	`\env\Scripts\activate.bat\` to activate your virtual environment.
+	`echo 'env' > .gitignore` so that you don't commit your virtual environment.
+	`pip install -r requirements.txt` to install all dependencies required for the django server.
+	`cd src/serversidesrc` to navigate to the correct directory.
 	`python manage.py runserver` to run the server as it is.
 	The server will be running at **localhost:8000/wel**.
 	
