@@ -17,8 +17,10 @@
 	`python manage.py runserver` to run the server as it is.  \
 	The server will be running at **localhost:8000/wel**.  
 	
-* To run the ReactJS App:
+* To run the ReactJS App:\
 	`cd src` to navigate to the *src* directory.  \
 	`npm start` will start the React server on **localhost:3000**.  \
 
-
+* Django database stuff (IMPORTANT!!!!): \
+	Every time a new model is created in models.py the sql database needs to be updated with this new database. Run `python manage.py makemigrations` and then `python manage.py migrate` to update the database with that new model. \
+	Every time a new table/model is created, a serializer needs to be created to be able to convert between json (or the similar python-readable dictionary datatype), in serializer.py.
