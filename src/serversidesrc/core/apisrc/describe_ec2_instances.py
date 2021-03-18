@@ -16,6 +16,11 @@ def ec2_api_details(access_key,secret_key):
     #write response_instances to instances file
     with open("./instances.json", "w") as fp:
         json.dump(response_instances, fp, default = dateS, indent=4)
+
+    securityGroups = json.dumps(response_sg, indent=4)
+    instances = json.dumps(response_instances, indent=4)
+
+    return securityGroups, instances
     
 
     
