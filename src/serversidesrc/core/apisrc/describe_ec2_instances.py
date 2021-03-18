@@ -9,14 +9,6 @@ def ec2_api_details(access_key,secret_key):
     response_instances = ec2.describe_instances()
     reponse_sg = ec2.describe_security_groups()
 
-    #write response_sg to securityGroups file
-    with open("securityGroups.json", "w") as fp:
-        json.dump(response_sg, fp, indent=4)
-
-    #write response_instances to instances file
-    with open("./instances.json", "w") as fp:
-        json.dump(response_instances, fp, default = dateS, indent=4)
-
     securityGroups = json.dumps(response_sg, indent=4)
     instances = json.dumps(response_instances, indent=4)
 
