@@ -2,8 +2,27 @@ from django.shortcuts import render
 from rest_framework.views import APIView 
 from . models import *
 from rest_framework.response import Response 
-from . serializer import *
+from .serializer import *
 # Create your views here. 
+
+class SecurityGroupView(APIView):
+    serializer_class = SecurityGroupSerializer 
+  
+    def get(self, request): 
+        security_groups = [ {"group_name": security_groups.group_name, \
+            "description": security_groups.description, "owner_id": security_groups.owner_id,\
+            "group_id": security_groups.group_id, "vpc_id": security_groups.vpc_id}  
+        for security_groups in SecurityGroup.objects.all()]
+        print(security_groups) 
+        return Response(security_groups) 
+  
+    def post(self, request): 
+        print(request.data)
+        serializer = SecurityGroupSerializer(data=request.data) 
+        if serializer.is_valid(raise_exception=True): 
+            serializer.save() 
+            return  Response(serializer.data) 
+    
   
 class EC2DataView(APIView): 
     

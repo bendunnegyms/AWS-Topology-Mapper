@@ -1,12 +1,33 @@
-from rest_framework import serializers 
+from rest_framework import serializers, fields
 from . models import *
   
 class SecurityGroupSerializer(serializers.ModelSerializer):
+    #ip_permissions_egress = IpPermissionsEgressSerializer(many=True, read_only=True)
+    #ip_permissions = IpPermissionsSerializer(many=True, read_only=True)
+    #tags = TagsSerializer(many=True, read_only=True)
+
+    #data = serializers.PrimaryKeyRelatedField(many=True)
+
     class Meta:
         model = SecurityGroup
-        fields = ['group_name', 'description', 'owner_id', 'group_id', 'vpc_id']
+        fields = '__ALL__'
+
+    #Be able to update data
+    #def update(self, request, *args, **kwargs):
+    #    instance = self.get_object()
+    #    serializer = ProfileSerializer(
+    #    instance=instance,
+    #    data=request.data
+    #    )
+    #    serializer.is_valid(raise_exception=True)
+    #    serializer.save()
+    #    return Response(serializer.data)
 
 class IpPermissionsSerializer(serializers.ModelSerializer):
+    #ip_ranges = IpRangesSerializer(many=True, read_only=True)
+    #ipv6_ranges = Ipv6RangesSerializer(many=True, read_only=True)
+    #prefix_list_ids = PrefixListIdsSerializer(many=True, read_only=True)
+    #user_id_group_pairs = UserIdGroupPairsSerializer(many=True, read_only=True)
     class Meta:
         model = IpPermissions
         fields = ['from_port', 'ip_protocol', 'to_port']
@@ -36,9 +57,14 @@ class UserIdGroupPairsSerializer(serializers.ModelSerializer):
         fields = ['group_id', 'group_name', 'user_id']
         related_object = 'ip_permissions'
 
-class IpPermissionEgressSerializer(serializers.ModelSerializer):
+class IpPermissionsEgressSerializer(serializers.ModelSerializer):
+
+    #ip_ranges_egress = IpRangesEgressSerializer(many=True, read_only=True)
+    #ipv6_ranges_egress = Ipv6RangesEgressSerializer(many=True, read_only=True)
+    #prefix_list_ids_egress = PrefixListIdsEgressSerializer(many=True, read_only=True)
+    #user_id_group_pairs_egress = UserIdGroupPairsEgressSerializer(many=True, read_only=True)
     class Meta:
-        model = IpPermissionEgress
+        model = IpPermissionsEgress
         fields = ['from_port', 'ip_protocol', 'to_port']
         related_object = 'security_groups'
 
