@@ -1,7 +1,7 @@
 import boto3
 import json
-import datetime
-from describe_ec2_instances import dateSerializer as dateToJson
+
+from dateSerializer import dateSerializer as dateToJson
 
 #returns jsons of load balancer data
 def elb_api_details():
