@@ -80,7 +80,7 @@ def ec2_instances_to_frontend_format(security_groups_data, instances_data):
                                     new_outbound_permission_entry = {"Source": prefixid, "Protocol": protocol, "Port":to_port}
                                     instance_outbound.append(new_outbound_permission_entry)
                         
-            instance_simplified = {"InstanceID":instance_id, "Name":instance_name,"IPAddress":instance_IP, "Outbound":instance_outbound, "Inbound":instance_inbound}
+            instance_simplified = {"InstanceID":instance_id, "Name":instance_name,"IPAddress":instance_IP, "SecurityGroups":instance_sgs, "Outbound":instance_outbound, "Inbound":instance_inbound}
             instance_data.append(instance_simplified)
         
 
