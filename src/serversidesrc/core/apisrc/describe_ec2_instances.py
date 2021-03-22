@@ -10,6 +10,6 @@ def ec2_api_details():
     response_instances = ec2.describe_instances()
     instances = json.dumps(response_instances, default = dateToJson, indent=4)
 
-    return instances
+    return response_instances
     
 

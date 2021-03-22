@@ -10,4 +10,4 @@ def getRDSDetails():
     
     rdsInstances = json.dumps(rds_attributes, default = dateToJson, indent=4)
 
-    return rdsInstances
+    return rds_attributes

@@ -10,4 +10,4 @@ def elb_api_details():
 
     balancers = json.dumps(balancer_attributes, default = dateToJson, indent=4)
 
-    return balancers
+    return response_balancers
