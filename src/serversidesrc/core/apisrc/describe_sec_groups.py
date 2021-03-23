@@ -8,6 +8,7 @@ def security_group_api_details():
     
     response_sg = ec2.describe_security_groups()
     # securityGroups = json.dumps(response_sg, indent=4)
-    
+    # NB - IP Permissions should be added to the database for future access
+
     return response_sg
     
