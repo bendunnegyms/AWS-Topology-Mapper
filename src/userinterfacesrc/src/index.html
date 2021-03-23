@@ -1,10 +1,19 @@
 <!doctype html>
 <link rel=stylesheet href=mystyle.css>
 
-<script src=myscript.js></script>
-<script src=LIBRARY_NAME></script>
+<head>
+    <meta charset="utf-8">
+    <title>AWS Topology</title>
+    <script src=myscript.js></script>
+    <!-- including ECharts file -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</head>
 
-<h1>Hello</h1>
-<button onclick=loadChart()>load</button>
 
-<div id=chart1></div>
+<body>
+    <h1>Hello</h1>
+    <!-- <button onclick=loadChart()>load</button> -->
+    <!-- preparing a DOM with width and height for ECharts -->
+    <div id="chart1" style="width:600px; height:400px;"></div>
+</body>
+
