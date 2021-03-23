@@ -48,6 +48,7 @@ class EC2DataView(APIView):
 
 class EC2_Instances(APIView):
 
+    # Request sent to /instances on load/reloading page
     def get(self, request):
         print(request.text())
         instance_details = ec2_instances_to_frontend_format(secgroups(),ec2())
