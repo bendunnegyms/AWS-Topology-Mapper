@@ -2,6 +2,15 @@ import json
 
 def ec2_instances_to_frontend_format(security_groups_data, instances_data):
 
+    # This combines data on instances and security groups.
+    # Collects the instance ID, instance name, instance private IP address, outbound and inbound permissions
+    # For every EC2 instance, 
+    # for every security group that it is a part of, 
+    # the ingress permissions are examined and a json value is created containing the source, inbound protocol and inbound port
+    # the egress permissions are examined and a json valie is created containing the destination, outbound protocol, and outbound port
+    # two lists are created of inbound and outbound permissions and inserted into the json value for an EC2 instance.
+    
+
     sg_data_list = security_groups_data["SecurityGroups"]
 
     instance_data = []
@@ -18,6 +27,7 @@ def ec2_instances_to_frontend_format(security_groups_data, instances_data):
             instance_outbound = []
             instance_inbound = []
 
+            # this can be ripped for creating inbound and outbound lists for rds, load balancers, etc, 
             for sg in instance_sgs:
                 sg_id = sg["GroupId"]
                 for security_group in sg_data_list:

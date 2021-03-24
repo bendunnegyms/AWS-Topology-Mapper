@@ -10,9 +10,5 @@ rds_response = rds()
 rds_formatted = json.dumps(rds_response, default = dateToJson, indent=4)
 print(rds_formatted)
 
-def dateserializer(input):
-    if isinstance(input, datetime.datetime):
-        return input.__str__()
-
-with open("./dbs_instances.json", "w") as fp:
-       json.dump(rds_response, fp, default=dateserializer, indent=4)
+with open("./src/serversidesrc/core/apisrc/dbs_instances.json", "w") as fp:
+       json.dump(rds_response, fp, default=dateToJson, indent=4)
