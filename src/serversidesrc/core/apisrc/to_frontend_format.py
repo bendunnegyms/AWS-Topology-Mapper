@@ -44,22 +44,26 @@ def ec2_instances_to_frontend_format(security_groups_data, instances_data):
                             if len(inbound_permission["IpRanges"]) > 0:
                                 for ip in inbound_permission["IpRanges"]:
                                     new_inbound_permission_entry = {"Source": ip["CidrIp"], "Protocol": protocol, "Port":to_port}
-                                    instance_inbound.append(new_inbound_permission_entry)
+                                    if new_inbound_permission_entry not in instance_inbound:
+                                        instance_inbound.append(new_inbound_permission_entry)
 
                             if len(inbound_permission["Ipv6Ranges"]) > 0:
                                 for ipv6 in inbound_permission["Ipv6Ranges"]:
                                     new_inbound_permission_entry = {"Source": ipv6["CidrIpv6"], "Protocol": protocol, "Port":to_port}
-                                    instance_inbound.append(new_inbound_permission_entry)
+                                    if new_inbound_permission_entry not in instance_inbound:
+                                        instance_inbound.append(new_inbound_permission_entry)
                             
                             if len(inbound_permission["UserIdGroupPairs"]) > 0:
                                 for security_group_id in inbound_permission["UserIdGroupPairs"]:
                                     new_inbound_permission_entry = {"Source": security_group_id["GroupId"], "Protocol": protocol, "Port":to_port}
-                                    instance_inbound.append(new_inbound_permission_entry)
+                                    if new_inbound_permission_entry not in instance_inbound:
+                                        instance_inbound.append(new_inbound_permission_entry)
                             
                             if len(inbound_permission["PrefixListIds"]) > 0:
                                 for prefixid in inbound_permission["PrefixListIds"]:
                                     new_inbound_permission_entry = {"Source": prefixid, "Protocol": protocol, "Port":to_port}
-                                    instance_inbound.append(new_inbound_permission_entry)
+                                    if new_inbound_permission_entry not in instance_inbound:
+                                        instance_inbound.append(new_inbound_permission_entry)
                             
                         for outbound_permission in security_group["IpPermissionsEgress"]:
                             # print(outbound_permission)
@@ -73,23 +77,28 @@ def ec2_instances_to_frontend_format(security_groups_data, instances_data):
                             if len(outbound_permission["IpRanges"]) > 0:
                                 for ip in outbound_permission["IpRanges"]:
                                     new_outbound_permission_entry = {"Source": ip["CidrIp"], "Protocol": protocol, "Port":to_port}
-                                    instance_outbound.append(new_outbound_permission_entry)
+                                    if new_outbound_permission_entry not in instance_outbound:
+                                        instance_outbound.append(new_outbound_permission_entry)
 
                             if len(outbound_permission["Ipv6Ranges"]) > 0:
                                 for ipv6 in outbound_permission["Ipv6Ranges"]:
                                     new_outbound_permission_entry = {"Source": ipv6["CidrIpv6"], "Protocol": protocol, "Port":to_port}
-                                    instance_outbound.append(new_outbound_permission_entry)
+                                    if new_outbound_permission_entry not in instance_outbound:
+                                        instance_outbound.append(new_outbound_permission_entry)
                             
                             if len(outbound_permission["UserIdGroupPairs"]) > 0:
                                 for security_group in outbound_permission["UserIdGroupPairs"]:
                                     new_outbound_permission_entry = {"Source": security_group["GroupId"], "Protocol": protocol, "Port":to_port}
-                                    instance_outbound.append(new_outbound_permission_entry)
+                                    if new_outbound_permission_entry not in instance_outbound:
+                                        instance_outbound.append(new_outbound_permission_entry)
                             
                             if len(outbound_permission["PrefixListIds"]) > 0:
                                 for prefixid in outbound_permission["PrefixListIds"]:
                                     new_outbound_permission_entry = {"Source": prefixid, "Protocol": protocol, "Port":to_port}
-                                    instance_outbound.append(new_outbound_permission_entry)
-                        
+                                    if new_outbound_permission_entry not in instance_outbound:
+                                        instance_outbound.append(new_outbound_permission_entry)
+            
+
             instance_simplified = {"InstanceID":instance_id, "Name":instance_name,"IPAddress":instance_IP, "SecurityGroups":instance_sgs, "Outbound":instance_outbound, "Inbound":instance_inbound}
             instance_data.append(instance_simplified)
         
