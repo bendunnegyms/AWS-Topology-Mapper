@@ -3,11 +3,16 @@ from describe_ec2_instances import ec2_api_details as ec2
 from describe_sec_groups import security_group_api_details as secgroups
 from describe_rds_instances import getRDSDetails as rds
 from dateSerializer import dateSerializer as dateToJson
+import datetime
 import json
 
 rds_response = rds()
 rds_formatted = json.dumps(rds_response, default = dateToJson, indent=4)
-#print(json.dumps(rds_response, default = dateToJson, indent=4))
+print(rds_formatted)
+
+def dateserializer(input):
+    if isinstance(input, datetime.datetime):
+        return input.__str__()
 
 with open("./dbs_instances.json", "w") as fp:
-       json.dump(rds_response, fp, default=dateToJson,  indent=4)
+       json.dump(rds_response, fp, default=dateserializer, indent=4)
