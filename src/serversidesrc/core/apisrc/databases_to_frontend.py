@@ -22,8 +22,8 @@ def databases_to_frontend_format(database_data, instances_data):
             instance_outbound = []
             instance_subnets = []
 
-            for endpoint_data in database_data:
-            	endpoint_simplified = {"Address:", "Port:"}
+            endpoint_data = instance["Endpoint"]
+            endpoint_simplified = {"Address": endpoint_data["Address"], "Port":endpoint_data["Port"]}
 
 
             for inbound_data in database_data:
@@ -87,13 +87,16 @@ def databases_to_frontend_format(database_data, instances_data):
                                 if new_outbound_data_entry not in instance_outbound:
                                     instance_outbound.append(new_outbound_data_entry)
 
-            for subnet_data in database_data:
-            	new_subnet_data_entry = {"Subnet_id:", "SubnetAvailabilityZone:", "Status"}
+            subnet_data = instance["DBSubnetGroup"]["Subnets"]
+            for subnet in subnet_data:
+            	new_subnet_data_entry = {"Subnet_id":subnet["SubnetIdentifier"], "SubnetAvailabilityZone":subnet["SubnetAvailabilityZone"]["Name"], "Status":subnet["SubnetStatus"]}
+                if new_subnet_data_entry not in subnets_list:
+                    instance_subnets.append(new_subnet_data_entry)
             
 
-        instance_simplified = {"DB_id":instance_id, "DB_class":instance_class,"Status":instance_status, "Engine":instance_engine, "Outbound":instance_outbound, "Inbound":instance_inbound, "Subnets": instance_subnets}
+        instance_simplified = {"DB_id":instance_id, "DB_class":instance_class,"Status":instance_status, "Engine":instance_engine, "Outbound":instance_outbound, "Inbound":instance_inbound, "Subnets": subnets_list, "Endpoint": endpoint_simplified}
         instance_data.append(instance_simplified)
         
 
-    instances = {"Instances":instance_data}
+    instances = {"Databases":instance_data}
     return instances
