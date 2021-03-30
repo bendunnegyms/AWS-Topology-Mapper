@@ -14,7 +14,7 @@ def load_balancers_to_frontend_format(security_groups_data, load_balancers_data)
         balancerName = entry["LoadBalancerName"]              #"Name"
         source_sg_group = entry["SourceSecurityGroup"]                            
         sg_name = source_sg_group["GroupName"]                #"securityGroup"
-        balancer_sgs = entry["SecurityGroups"]
+        
 
         balancer_instances = []  
         listeners = []
@@ -92,31 +92,33 @@ def load_balancers_to_frontend_format(security_groups_data, load_balancers_data)
 
                         if len(outbound_permission["IpRanges"]) > 0:
                             for ip in outbound_permission["IpRanges"]:
-                                new_outbound_permission_entry = {"Source": ip["CidrIp"], "Protocol": protocol, "Port":to_port}
+                                new_outbound_permission_entry = {"Destination": ip["CidrIp"], "Protocol": protocol, "Port":to_port}
                                 if new_outbound_permission_entry not in instance_outbound:
                                     instance_outbound.append(new_outbound_permission_entry)
 
                         if len(outbound_permission["Ipv6Ranges"]) > 0:
                             for ipv6 in outbound_permission["Ipv6Ranges"]:
-                                new_outbound_permission_entry = {"Source": ipv6["CidrIpv6"], "Protocol": protocol, "Port":to_port}
+                                new_outbound_permission_entry = {"Destination": ipv6["CidrIpv6"], "Protocol": protocol, "Port":to_port}
                                 if new_outbound_permission_entry not in instance_outbound:
                                     instance_outbound.append(new_outbound_permission_entry)
                         
                         if len(outbound_permission["UserIdGroupPairs"]) > 0:
                             for security_group in outbound_permission["UserIdGroupPairs"]:
-                                new_outbound_permission_entry = {"Source": security_group["GroupId"], "Protocol": protocol, "Port":to_port}
+                                new_outbound_permission_entry = {"Destination": security_group["GroupId"], "Protocol": protocol, "Port":to_port}
                                 if new_outbound_permission_entry not in instance_outbound:
                                     instance_outbound.append(new_outbound_permission_entry)
                         
                         if len(outbound_permission["PrefixListIds"]) > 0:
                             for prefixid in outbound_permission["PrefixListIds"]:
-                                new_outbound_permission_entry = {"Source": prefixid, "Protocol": protocol, "Port":to_port}
+                                new_outbound_permission_entry = {"Destination": prefixid, "Protocol": protocol, "Port":to_port}
                                 if new_outbound_permission_entry not in instance_outbound:
                                     instance_outbound.append(new_outbound_permission_entry)  
-
-        balancer_simplified = {"Name":balancerName, "Instance_ids": balancer_instances, "SecurityGroup":sg_name, "Inbound":instance_inbound, "Outbound":instance_outbound, "Listeners":listeners }
-        balancer_data.append(balancer_simplified)
-
+        
+        
+        for entry in balancer_instances:
+            instdata = entry["InstanceId"]
+            balancer_simplified = {"Name":balancerName, "InstanceID": instdata, "SecurityGroup":sg_name, "Inbound":instance_inbound, "Outbound":instance_outbound, "Listeners":listeners }
+            balancer_data.append(balancer_simplified)
+            
     balancers ={"LoadBalancers":balancer_data}
     return balancers
-

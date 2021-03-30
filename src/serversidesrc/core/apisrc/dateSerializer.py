@@ -1,6 +1,5 @@
-import json
 import datetime
-
+import json
 
 
 #Used to convert datetime to string for json
