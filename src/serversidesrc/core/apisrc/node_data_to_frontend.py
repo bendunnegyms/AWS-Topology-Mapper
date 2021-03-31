@@ -24,7 +24,7 @@ def createNodeData(all_instance_data):
             instance_sg.append(sg)
         
 
-        instance_simplified = {"InstanceID":instance_id, "Name":instance_name, "Type": "ec2", "SecurityGroups":instance_sg}
+        instance_simplified = {"instanceID":instance_id, "name":instance_name, "type": "ec2", "securityGroups":instance_sg}
         nodes.append(instance_simplified)
 
     #loop through each balancer
@@ -33,7 +33,7 @@ def createNodeData(all_instance_data):
         balancer_name = entry["Name"]
         balancer_sg = entry["SecurityGroup"]
 
-        balancer_simplified = {"InstanceID":balancer_id, "Name":balancer_name, "Type": "loadBalancer", "SecurityGroup":balancer_sg}
+        balancer_simplified = {"instanceID":balancer_id, "name":balancer_name, "type": "loadBalancer", "securityGroup":balancer_sg}
         nodes.append(balancer_simplified)
 
     #loop through each database
@@ -46,7 +46,7 @@ def createNodeData(all_instance_data):
             sg_name = data["GroupName"]
             database_sgs.append(sg_name)
 
-        database_simplified = {"InstanceID":database_id, "Name":database_name, "Type": "database", "SecurityGroups": database_sgs}
+        database_simplified = {"instanceID":database_id, "name":database_name, "type": "database", "securityGroups": database_sgs}
         nodes.append(database_simplified)
 
 
@@ -251,5 +251,5 @@ def createNodeData(all_instance_data):
                                 outward_links.append(instance_link)                           
 
     #links.append(outward_links)
-    nodeJson = {"Nodes": nodes, "Links": outward_links}
+    nodeJson = {"nodes": nodes, "links": outward_links}
     return nodeJson
