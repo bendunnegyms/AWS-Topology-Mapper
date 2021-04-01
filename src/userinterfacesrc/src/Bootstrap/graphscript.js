@@ -13,7 +13,7 @@ myChart.showLoading();
 
 // generateSecurityGroup("sampleSecurityGroup");
 // generateEntireGraph();
-generateSingleNode("i-0ab8089c913441c31");
+generateSingleNode("sampleTest");
 function generateEntireGraph() {
   fetch("work.json")
     .then((response) => response.json())
