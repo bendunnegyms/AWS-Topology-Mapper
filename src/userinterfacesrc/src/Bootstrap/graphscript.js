@@ -11,30 +11,34 @@ var testData = { nodes, links, categories };
 
 myChart.showLoading();
 
-// generateSecurityGroup("");
-generateEntireGraph();
+// generateSecurityGroup("";
+// generateEntireGraph();
 // generateSingleNode("");//"");
 
+/*
+General Purpose functions that are used in each of the graph generating functions
+*/
 
 
 /*
-This function returns true/false depenind on whether there is an overlapping of links and
+This function returns true/false dependind on whether there is an overlapping of links and
 if there is then it concats the ports  of the overlapping links together
 For example if there exists two objects in the links array with the same source/target but
 a different port then this function should combine those two objects in the links array
 into a single object in the testData.links array. If there isn't any overlap then it returns false
-
+As an input it takes the data array, the testData array and the integer k which is the index number of
+the data.links array we are comparing with
 */
 function nodeOverLapCheckerAndConcatenation(data,testData,k)
 {         
           var m;
-          var oldLink=false;
+          var duplicateLink=false;
           for(m=0;m<testData.links.length;m++)
           {
             if(data.Links[k].source ==testData.links[m].source
               &&data.Links[k].target ==testData.links[m].target)
             {
-              oldLink=true;
+              duplicateLink=true;
               var currentPorts = testData.links[m].ports;
               var newPorts = currentPorts.concat("--------",data.Links[k].info.port);
 
@@ -43,69 +47,46 @@ function nodeOverLapCheckerAndConcatenation(data,testData,k)
               var labelShown="----Source:---"+ data.Links[k].info.source.toString()+"----Protocol:------"+data.Links[k].info.protocol.toString()+"--ports:  "+newPorts;
               
               var value="value"
-            //   testData.links[m][label]=
-            //   {            
-            //     show: true,
-            //     color: "black",
-            //     fontSize: 8,
-            //        formatter: function(d) 
-            //        {
-            //       return "";//labelShown;
-            //          } 
-            //         }
-            // }
+
             testData.links[m][value]=labelShown;
             }
 
           }
-          return oldLink;
+          return duplicateLink;
 }
 
 
+/*
+This is a short function that creates the category types for the graph
+The types consist of every kind of node in the JSON such as ec2, loadBalancers and databases
+These categories will be shown in the legend
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function generateEntireGraph() 
-{
-  fetch("work.json")
-    .then((response) => response.json())
-    .then((data) => {
-
-
-
-
-      /*
-This for loop iterates over the  links 
-It then adds it to an array of links in the form of source and target
 */
-var k;
-for (k = 0; k < data.Links.length; k++) 
+function createCategories(testData)
 {
-  var oldLink=nodeOverLapCheckerAndConcatenation(data,testData,k);
+      testData.categories[0] = {
+        name: "ec2",
+      };
+      testData.categories[1] = {
+        name: "loadBalancer",
+      };
+      testData.categories[2] = {
+        name: "database",
+      };
+}
 
+
+/*
+This function creates a link and places it into the testData.links array
+The oldLink boolean is there to make sure there isn't another link with the same source/target node  so we dont
+make a duplicate by accident. Integer k is the index number of data.links we are referencing
+*/
+function createLinks(data,testData,oldLink,k)
+{
   if(oldLink==false)
   {
             var portString=data.Links[k].info.port.toString();
-            testData.links.push({
+              testData.links.push({
               source: data.Links[k].source,
               target: data.Links[k].target,
               ports: portString ,
@@ -122,8 +103,62 @@ for (k = 0; k < data.Links.length; k++)
 
 
 
+/*
+This function should check the testData and see if there are any Nodes that contain the same instanceID
+as the current data Node we are using
+It  should return true if duplicates exist
+It was used mainly for error checking and is largely redundant now
+Will also return true if there is an undefined Node in testData
+
+It takes the data array, testData array and an integer i which is index i of the data.Nodes array
+*/
+function checkForDuplicateNodesInTestData(data,testData,i)
+{
+var alreadyExists=false;
+  for (j = 0; j < testData.nodes.length; j++) {
+    if (typeof testData.nodes[j] === "undefined") {
+      console.log("testFailed");
+      alreadyExists = true;
+    } else if (testData.nodes[j].id == data.Nodes[i].InstanceID) {
+      console.log("testFailedDueToDuplicate");
+      alreadyExists = true;
+    }
+  }
+
+  return alreadyExists;
+
+}
 
 
+
+/*
+Graph Generating Functions are below
+Current functions that have been implemented are:
+generateEntireGraph()
+generateSingleNode(nodeInput)
+generateSingleSecurityGroup(securityGroup Input)
+*/
+
+
+function generateEntireGraph() 
+{
+  fetch("work.json")
+    .then((response) => response.json())
+    .then((data) => {
+
+
+
+/*
+This for loop iterates over the data.links array
+It then adds it to the testData.links array depending on whether or not the link is a duplicate
+*/
+var k;
+for (k = 0; k < data.Links.length; k++) 
+{
+        var oldLink=nodeOverLapCheckerAndConcatenation(data,testData,k);
+        createLinks(data,testData,oldLink,k);
+
+}
 
 
       var i;
@@ -131,17 +166,10 @@ for (k = 0; k < data.Links.length; k++)
       var numberOfNodes = 0;
 
       for (i = 0; i < data.Nodes.length; i++) {
-        var j;
+       
 
-        //This for loop checks for errors in the JSON that would cause echarts to stop working such as duplicates
-        for (j = 0; j < testData.nodes.length; j++) {
-          if (typeof testData.nodes[j] === "undefined") {
-            console.log("testFailed");
-            alreadyExists = true;
-          } else if (testData.nodes[j].id == data.Nodes[i].InstanceID) {
-            alreadyExists = true;
-          }
-        }
+
+        alreadyExists=checkForDuplicateNodesInTestData(data,testData,i);
 
         //This creates the nodes using the information from the JSON and inputs the nodes into the testData array
         if (
@@ -178,17 +206,8 @@ for (k = 0; k < data.Links.length; k++)
         alreadyExists = false;
       }
 
-
-      //Required types that will be shown in the legend
-      testData.categories[0] = {
-        name: "ec2",
-      };
-      testData.categories[1] = {
-        name: "loadBalancer",
-      };
-      testData.categories[2] = {
-        name: "database",
-      };
+      //Create categories
+      createCategories(testData)
 
       loadChart(testData);
     });
@@ -221,25 +240,10 @@ function generateSingleNode(NodeID) {
           
           //Calling the concatenation function for ports and returning false if the current data.links[k] has no overlap in the testData.links
           var oldLink=nodeOverLapCheckerAndConcatenation(data,testData,k);
+          createLinks(data,testData,oldLink,k);
 
-     
-      if(oldLink==false)
-        {
-          var portString=data.Links[k].info.port.toString();
 
-          testData.links.push({
-            source: data.Links[k].source,
-            target: data.Links[k].target,
-            ports: portString ,
-            value: portString,
-            lineStyle: {
-              color: "green",
-              curveness: 0
-            },
-          });
-        oldLink=true;
 
-        }
         if (data.Links[k].target == NodeID) {
           connectedNodes.push(data.Links[k].source);
         }
@@ -253,16 +257,9 @@ that echarts will accept. It will only convert the desired Nodes
 */
 
       for (i = 0; i < data.Nodes.length; i++) {
-        var j;
-        //For loop that prevents undefined errors among nodes and also identifies if there are any duplicate Nodes in our testData array
-        for (j = 0; j < testData.nodes.length; j++) {
-          if (typeof testData.nodes[j] === "undefined") {
-            console.log("testFailed");
-            alreadyExists = true;
-          } else if (testData.nodes[j].id == data.Nodes[i].InstanceID) {
-            alreadyExists = true;
-          }
-        }
+        
+        //Ensuring there are no duplicates or undefined Nodes in testdData
+        alreadyExists=checkForDuplicateNodesInTestData(data,testData,i);
         //These if statements checks that the node we want is of the correct type and if there are any duplicate or undefined nodes in the JSON
         if (
           alreadyExists == false &&
@@ -298,7 +295,7 @@ that echarts will accept. It will only convert the desired Nodes
             symbolSize: sourceNode ? 10 : 4,
             value: 0,
             category: data.Nodes[i].Type,
-            symbol: "square",
+            // symbol: "square",
             itemStyle: {
               color: sourceNode ? "blue" : "red",
             },
@@ -309,15 +306,9 @@ that echarts will accept. It will only convert the desired Nodes
         alreadyExists = false;
       }
 
-      testData.categories[0] = {
-        name: "ec2",
-      };
-      testData.categories[1] = {
-        name: "loadBalancer",
-      };
-      testData.categories[2] = {
-        name: "database",
-      };
+      //Create categories
+      createCategories(testData)
+
       loadChart(testData);
     });
 }
@@ -332,30 +323,13 @@ function generateSecurityGroup(SecurityGroup) {
 
       /*
 This for loop iterates over the  links 
-It then adds it to an array of links in the form of source and target
+It then adds it to an array of links in testData
 */
       var k;
       for (k = 0; k < data.Links.length; k++) 
       {
         var oldLink=nodeOverLapCheckerAndConcatenation(data,testData,k);
- 
-        if(oldLink==false)
-        {
-                  var portString=data.Links[k].info.port.toString();
-                  testData.links.push({
-                    source: data.Links[k].source,
-                    target: data.Links[k].target,
-                    ports: portString ,
-                    //value: "portString",
-                    value: "----Source:---"+ data.Links[k].info.source.toString()+"----Protocol:------"+data.Links[k].info.protocol.toString()+"--ports:  "+portString,
-                    lineStyle: {
-                      color: "green",
-                      curveness: 0.3
-                    },
-                  });
-                oldLink=true;
-        
-          }
+        createLinks(data,testData,oldLink,k);
       }
 
       /*
@@ -364,18 +338,13 @@ that echarts will accept. It will only convert the desired Nodes
 */
 
       for (i = 0; i < data.Nodes.length; i++) {
-        var j;
+        
 
-        //For loop that prevents undefined errors among nodes and also identifies if there are any duplicate Nodes in our testData array
-        for (j = 0; j < testData.nodes.length; j++) {
-          if (typeof testData.nodes[j] === "undefined") {
-            console.log("testFailed");
-            alreadyExists = true;
-          } else if (testData.nodes[j].id == data.Nodes[i].InstanceID) {
-            alreadyExists = true;
-          }
-        }
+        //Checking for duplicate or undefined nodes for example if data.nodes[i] has a duplicate node in testData.nodes then it returns true
+        alreadyExists=checkForDuplicateNodesInTestData(data,testData,i);
         //This if statement checks that the node we want is of the correct type and if there are any duplicate or undefined nodes in the JSON
+
+
         if (
           alreadyExists == false &&
           (data.Nodes[i].Type == "ec2" ||
@@ -407,15 +376,9 @@ that echarts will accept. It will only convert the desired Nodes
         alreadyExists = false;
       }
 
-      testData.categories[0] = {
-        name: "ec2",
-      };
-      testData.categories[1] = {
-        name: "loadBalancer",
-      };
-      testData.categories[2] = {
-        name: "database",
-      };
+      //Create categories
+      createCategories(testData)
+
 
       console.log(testData);
 
@@ -456,6 +419,9 @@ function loadChart(graph) {
         name: "EdgeScan Graph",
         type: "graph",
         layout: "force", //"none",
+
+        edgeSymbol: ['circle', 'arrow'],
+        edgeSymbolSize: [1, 10],
 
         force: {
           // repulsion: 2000,
