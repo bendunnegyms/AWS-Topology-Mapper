@@ -11,13 +11,120 @@ var testData = { nodes, links, categories };
 
 myChart.showLoading();
 
-// generateSecurityGroup("sampleSecurityGroup");
-// generateEntireGraph();
-generateSingleNode("sampleTest");
-function generateEntireGraph() {
+// generateSecurityGroup("");
+generateEntireGraph();
+// generateSingleNode("");//"");
+
+
+
+/*
+This function returns true/false depenind on whether there is an overlapping of links and
+if there is then it concats the ports  of the overlapping links together
+For example if there exists two objects in the links array with the same source/target but
+a different port then this function should combine those two objects in the links array
+into a single object in the testData.links array. If there isn't any overlap then it returns false
+
+*/
+function nodeOverLapCheckerAndConcatenation(data,testData,k)
+{         
+          var m;
+          var oldLink=false;
+          for(m=0;m<testData.links.length;m++)
+          {
+            if(data.Links[k].source ==testData.links[m].source
+              &&data.Links[k].target ==testData.links[m].target)
+            {
+              oldLink=true;
+              var currentPorts = testData.links[m].ports;
+              var newPorts = currentPorts.concat("--------",data.Links[k].info.port);
+
+            testData.links[m].ports=newPorts;
+
+              var labelShown="----Source:---"+ data.Links[k].info.source.toString()+"----Protocol:------"+data.Links[k].info.protocol.toString()+"--ports:  "+newPorts;
+              
+              var value="value"
+            //   testData.links[m][label]=
+            //   {            
+            //     show: true,
+            //     color: "black",
+            //     fontSize: 8,
+            //        formatter: function(d) 
+            //        {
+            //       return "";//labelShown;
+            //          } 
+            //         }
+            // }
+            testData.links[m][value]=labelShown;
+            }
+
+          }
+          return oldLink;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function generateEntireGraph() 
+{
   fetch("work.json")
     .then((response) => response.json())
     .then((data) => {
+
+
+
+
+      /*
+This for loop iterates over the  links 
+It then adds it to an array of links in the form of source and target
+*/
+var k;
+for (k = 0; k < data.Links.length; k++) 
+{
+  var oldLink=nodeOverLapCheckerAndConcatenation(data,testData,k);
+
+  if(oldLink==false)
+  {
+            var portString=data.Links[k].info.port.toString();
+            testData.links.push({
+              source: data.Links[k].source,
+              target: data.Links[k].target,
+              ports: portString ,
+              value: "----Source:---"+ data.Links[k].info.source.toString()+"----Protocol:------"+data.Links[k].info.protocol.toString()+"--ports:  "+portString,
+              lineStyle: {
+                color: "green",
+                curveness: 0.3
+              },
+            });
+          oldLink=true;
+  
+    }
+}
+
+
+
+
+
+
 
       var i;
       var alreadyExists = false;
@@ -71,14 +178,6 @@ function generateEntireGraph() {
         alreadyExists = false;
       }
 
-      //Fills the testData links array with the data from the JSON links array
-      var k;
-      for (k = 0; k < data.Links.length; k++) {
-        testData.links[k] = {
-          source: data.Links[k].source,
-          target: data.Links[k].target,
-        };
-      }
 
       //Required types that will be shown in the legend
       testData.categories[0] = {
@@ -94,6 +193,10 @@ function generateEntireGraph() {
       loadChart(testData);
     });
 }
+
+
+
+
 
 function generateSingleNode(NodeID) {
   fetch("work.json")
@@ -114,18 +217,35 @@ function generateSingleNode(NodeID) {
       for (k = 0; k < data.Links.length; k++) {
         if (data.Links[k].source == NodeID) {
           connectedNodes.push(data.Links[k].target);
+                
+          
+          //Calling the concatenation function for ports and returning false if the current data.links[k] has no overlap in the testData.links
+          var oldLink=nodeOverLapCheckerAndConcatenation(data,testData,k);
+
+     
+      if(oldLink==false)
+        {
+          var portString=data.Links[k].info.port.toString();
+
           testData.links.push({
             source: data.Links[k].source,
             target: data.Links[k].target,
+            ports: portString ,
+            value: portString,
             lineStyle: {
               color: "green",
+              curveness: 0
             },
           });
+        oldLink=true;
+
         }
         if (data.Links[k].target == NodeID) {
           connectedNodes.push(data.Links[k].source);
         }
       }
+      }
+      console.log(testData.links);
 
       /*
 This for loop iterates over the nodes array in the JSON data and converts it into a format
@@ -143,7 +263,7 @@ that echarts will accept. It will only convert the desired Nodes
             alreadyExists = true;
           }
         }
-        //This if statement checks that the node we want is of the correct type and if there are any duplicate or undefined nodes in the JSON
+        //These if statements checks that the node we want is of the correct type and if there are any duplicate or undefined nodes in the JSON
         if (
           alreadyExists == false &&
           (data.Nodes[i].Type == "ec2" ||
@@ -175,7 +295,7 @@ that echarts will accept. It will only convert the desired Nodes
           testData.nodes[numberOfNodes] = {
             id: data.Nodes[i].InstanceID,
             name: data.Nodes[i].Name,
-            symbolSize: sourceNode ? 4 : 1,
+            symbolSize: sourceNode ? 10 : 4,
             value: 0,
             category: data.Nodes[i].Type,
             symbol: "square",
@@ -207,8 +327,6 @@ function generateSecurityGroup(SecurityGroup) {
     .then((response) => response.json())
     .then((data) => {
       var i;
-      var xPos;
-      var yPos;
       var alreadyExists = false;
       var numberOfNodes = 0;
 
@@ -217,14 +335,27 @@ This for loop iterates over the  links
 It then adds it to an array of links in the form of source and target
 */
       var k;
-      for (k = 0; k < data.Links.length; k++) {
-        testData.links.push({
-          source: data.Links[k].source,
-          target: data.Links[k].target,
-          lineStyle: {
-            color: "green",
-          },
-        });
+      for (k = 0; k < data.Links.length; k++) 
+      {
+        var oldLink=nodeOverLapCheckerAndConcatenation(data,testData,k);
+ 
+        if(oldLink==false)
+        {
+                  var portString=data.Links[k].info.port.toString();
+                  testData.links.push({
+                    source: data.Links[k].source,
+                    target: data.Links[k].target,
+                    ports: portString ,
+                    //value: "portString",
+                    value: "----Source:---"+ data.Links[k].info.source.toString()+"----Protocol:------"+data.Links[k].info.protocol.toString()+"--ports:  "+portString,
+                    lineStyle: {
+                      color: "green",
+                      curveness: 0.3
+                    },
+                  });
+                oldLink=true;
+        
+          }
       }
 
       /*
@@ -266,6 +397,7 @@ that echarts will accept. It will only convert the desired Nodes
             value: 0,
             category: data.Nodes[i].Type,
             symbol: "square",
+            
           };
 
           //Incrementing the number of Nodes
@@ -324,6 +456,12 @@ function loadChart(graph) {
         name: "EdgeScan Graph",
         type: "graph",
         layout: "force", //"none",
+
+        force: {
+          // repulsion: 2000,
+          // edgeLength: 60
+      },
+
         data: graph.nodes,
         links: graph.links,
         categories: graph.categories,
