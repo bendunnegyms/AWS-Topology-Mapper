@@ -56,6 +56,24 @@ searchBar.addEventListener('keyup', (e) => {
 General Purpose functions that are used in each of the graph generating functions
 */
 
+
+//This empties the global arrays so other graphs can be drawn
+function clearGlobalArrays()
+{
+
+          while(testData.nodes.length > 0) {
+            testData.nodes.length.pop();
+        }
+        while(testData.links.length > 0) {
+          testData.links.length.pop();
+        }
+        while(testData.categories.length > 0) {
+          testData.categories.length.pop();
+        }      
+
+}
+
+
 /*
 This function returns true/false dependind on whether there is an overlapping of links and
 if there is then it concats the ports  of the overlapping links together
@@ -236,7 +254,7 @@ function generateEntireGraph()
   fetch("work.json")
     .then((response) => response.json())
     .then((data) => {
-
+      clearGlobalArrays();
 /*
 This for loop iterates over the data.links array
 It then adds it to the testData.links array depending on whether or not the link is a duplicate
@@ -301,6 +319,7 @@ function generateSingleNode(NodeID){
   fetch("work.json")
   .then((response) => response.json())
   .then((data) => {
+    clearGlobalArrays();
     var i;
     var numberOfnodes = 0;
 
@@ -382,6 +401,9 @@ that echarts will accept. It will only convert the desired nodes
     
     createCategories(testData)
 
+
+  // console.log(testData);
+
     loadChart(testData);
   });
 
@@ -398,6 +420,7 @@ function generateSingleNodeOutgoing(NodeID) {
   fetch("work.json")
     .then((response) => response.json())
     .then((data) => {
+      clearGlobalArrays();
       var i;
       var numberOfnodes = 0;
 
@@ -481,6 +504,7 @@ function generateSingleNodeIncoming(NodeID){
   fetch("work.json")
   .then((response) => response.json())
   .then((data) => {
+    clearGlobalArrays();
     var i;
     var numberOfnodes = 0;
 
@@ -577,6 +601,7 @@ function generateSecurityGroup(securityGroups) {
   fetch("work.json")
     .then((response) => response.json())
     .then((data) => {
+      clearGlobalArrays();
       var i;
       var numberOfnodes = 0;
 
@@ -633,6 +658,7 @@ function generateMultipleSecurityGroups(securityGroups) {
   fetch("work.json")
     .then((response) => response.json())
     .then((data) => {
+      clearGlobalArrays();
       var i;
       var numberOfnodes = 0;
 
