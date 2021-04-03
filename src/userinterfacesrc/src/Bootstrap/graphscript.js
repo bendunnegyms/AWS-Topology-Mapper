@@ -46,6 +46,19 @@ searchBar.addEventListener('keyup', (e) => {
         generateSingleNode(search);
     
     }
+    else if (e.key  == "ArrowLeft") {
+      // left arrow
+      search = searchString ;
+      alert(search +" outgoing ");
+      generateSingleNodeOutgoing(search);
+     }
+    else if (e.key  == "ArrowRight") {
+      // right arrow
+      search = searchString ;
+      alert(search +" incoming ");
+      generateSingleNodeIncoming(search);
+  }
+
     console.log(search);
     
 });
