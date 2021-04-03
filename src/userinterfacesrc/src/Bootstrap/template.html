@@ -48,20 +48,19 @@
                 </div>
 
                 <ul class="nav">
-                    <li class="active">
+                    <li>
                         <a href="dash.html">
                             <i class="pe-7s-smile"></i>
                             <p>Home </p>
                         </a>
                     </li>
-                    <li class="active">
+                    <li >
                         <a href="dashboard.html">
                             <i class="pe-7s-graph3"></i>
                             <p>Dashboard Sample</p>
                         </a>
                     </li>
-
-                    <li>
+                        <li class="active">
                         <a href="template.html">
                             <i class="pe-7s-graph1"></i>
                             <p>Graph</p>
@@ -87,7 +86,7 @@
                         <ul class="nav navbar-nav navbar-left">
                             <li>
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-refresh"></i>
+                                     <!--     <i class="fa fa-refresh"></i> this button isnt working idk why yet-->   
                                     <!-- add similar class to add more icons to navbar-->
                                 </a>
                             </li>
@@ -113,9 +112,11 @@
                         </ul>
                         <!-- add above in below other main-->
                         <form class="form-inline">
-                            <input type="search" placeholder="Search" aria-label="Search">
+                            <input type="search" name = "searchBar" id ="searchBar" placeholder="Search by instance ID" aria-label="Search">
                             <button type="submit" Search class="btn btn-default btn-sm">
-                            <i class="fa fa-search"></i>
+                            <a href="template.html">
+                                <i class="fa fa-refresh"></i>
+                            </a>
                             </button>
                         </form>
                     </div>

@@ -17,7 +17,7 @@ var securityGroupsArray = ["",""];
 myChart.showLoading();
 
 // generateSecurityGroup("");
-generateEntireGraph();
+//generateEntireGraph();
 // generateSingleNodeOutgoing("");
 //  generateSingleNodeIncoming("");
 // generateSingleNode();
@@ -29,11 +29,26 @@ Known Issues:
 The value of edges is showing the incorrect ports on occasions and it only shows a single info.source when there should be multiple
 Some of the font cases will be lower case. This isn't an actual issue  but it does make it more difficult to read the code
 
+
+New Instance ID entered does not refresh graph
 */
 
 
-
-
+//search triggers one enter is pressed and this string is fed into generateSignleNode
+var searchBar = document.getElementById('searchBar');
+var search = "";
+searchBar.addEventListener('keyup', (e) => {
+    var searchString = e.target.value.toLowerCase();
+   // console.log(searchString);
+    if (e.key === "Enter") 
+    {
+        search = searchString ;
+        generateSingleNode(search);
+    
+    }
+    console.log(search);
+    
+});
 
 
 
