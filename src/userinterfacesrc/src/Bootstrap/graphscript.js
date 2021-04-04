@@ -26,7 +26,7 @@ myChart.showLoading();
 /*
 Known Issues:
 
-The value of edges is showing the incorrect ports on occasions and it only shows a single info.source when there should be multiple
+
 Some of the font cases will be lower case. This isn't an actual issue  but it does make it more difficult to read the code
 
 
@@ -70,6 +70,7 @@ General Purpose functions that are used in each of the graph generating function
 */
 
 
+
 //This empties the global arrays so other graphs can be drawn
 function clearGlobalArrays()
 {
@@ -87,12 +88,12 @@ function clearGlobalArrays()
 }
 
 
+
 /*
 This function returns true/false dependind on whether there is an overlapping of links and
-if there is then it concats the ports  of the overlapping links together
-For example if there exists two objects in the links array with the same source/target but
-a different port then this function should combine those two objects in the links array
-into a single object in the testData.links array. If there isn't any overlap then it returns false
+if there is then it determines the source of the ports of that link and
+adds those ports to a ports array inside infoSources that will correspond to the
+info.source it is connected to If there isn't any overlap then it returns false
 As an input it takes the data array, the testData array and the integer k which is the index number of
 the data.links array we are comparing with
 */
@@ -105,22 +106,74 @@ function nodeOverLapCheckerAndConcatenation(data,testData,k)
             if(data.links[k].source ==testData.links[m].source
               &&data.links[k].target ==testData.links[m].target)
             {
+              var newSource=true;
+              var p;
+              for(p=0;p<testData.links[m].infoSources.length;p++)
+              {
+                if(testData.links[m].infoSources[p].source==data.links[k].info.source)
+                {
+                  testData.links[m].infoSources[p].ports.push(data.links[k].info.port.toString());
+                  newSource=false;
+                }
+              }
+              if(newSource==true)
+              {
+
+                var portString=data.links[k].info.port.toString();
+
+                var infoSourcesPorts={
+                  source:[data.links[k].info.source.toString()],
+                  ports:[portString]
+    
+    
+                }
+                testData.links[m].infoSources.push(infoSourcesPorts);
+
+              }
               duplicateLink=true;
-              var currentPorts = testData.links[m].ports;
-              var newPorts = currentPorts.concat("--------",data.links[k].info.port);
-
-            testData.links[m].ports=newPorts;
-
-              var labelShown="----Source:   "+ data.links[k].info.source.toString()+"----Protocol:------"+data.links[k].info.protocol.toString()+"--ports:  "+newPorts;
-              
-              var value="value"
-
-            testData.links[m][value]=labelShown;
             }
 
           }
           return duplicateLink;
 }
+
+
+/*
+This function should set the value property of each and every link. It does this by accessing the
+infoSources array inside each link. From that is gets the source property in each array index and adds it to value string. Then
+it gets each and every port from the ports array alongside that source and adds it the the value string.
+It repeats this process for each unique source in the infoSources Array.
+
+*/
+function setValuesOfPorts(testData)
+{
+  var x;
+  var valueString="";
+  for(x=0;x<testData.links.length;x++)
+  {
+    valueString="";
+    var y;
+    for(y=0;y<testData.links[x].infoSources.length;y++)
+    {
+
+      valueString=valueString +"Source:" +testData.links[x].infoSources[y].source.toString()+"  ____Ports     :";
+
+      var z;
+      for(z=0;z<testData.links[x].infoSources[y].ports.length;z++)
+      {
+
+        valueString=valueString+testData.links[x].infoSources[y].ports[z].toString()+"     :";
+      }
+
+
+    }
+
+    testData.links[x]["value"]=valueString
+
+  }
+
+}
+
 
 
 /*
@@ -146,6 +199,7 @@ function createCategories(testData)
 }
 
 
+
 /*
 This function creates a link and places it into the testData.links array
 The oldLink boolean is there to make sure there isn't another link with the same source/target node  so we dont
@@ -156,11 +210,18 @@ function createlinks(data,testData,oldLink,k)
   if(oldLink==false)
   {
             var portString=data.links[k].info.port.toString();
+
+            var infoSourcesPorts={
+              source:[data.links[k].info.source.toString()],
+              ports:[portString]
+
+            }
               testData.links.push({
+              infoSources:[infoSourcesPorts], 
+                
               source: data.links[k].source,
               target: data.links[k].target,
-              ports: portString ,
-              value: "----Source:           "+ data.links[k].info.source.toString()+"----Protocol:------"+data.links[k].info.protocol.toString()+"Ports:            "+portString,
+
               lineStyle: {
                 color: "green",
                 curveness: 0.3
@@ -239,13 +300,7 @@ function determineNameAndType(data,i)
               nameTypeArray.push(nameOfNode);
 
               return nameTypeArray;
-
-              
-
-
-
 }
-
 
 
 
@@ -319,6 +374,7 @@ It then adds it to the testData.links array depending on whether or not the link
 
       //Create categories
       createCategories(testData)
+      setValuesOfPorts(testData)
       console.log(testData);
 
       loadChart(testData);
@@ -413,7 +469,7 @@ that echarts will accept. It will only convert the desired nodes
 
     
     createCategories(testData)
-
+    setValuesOfPorts(testData)
 
   // console.log(testData);
 
@@ -508,7 +564,7 @@ that echarts will accept. It will only convert the desired nodes
 
       
       createCategories(testData)
-
+      setValuesOfPorts(testData)
       loadChart(testData);
     });
 }
@@ -592,7 +648,7 @@ that echarts will accept. It will only convert the desired nodes
 
     
     createCategories(testData)
-
+    setValuesOfPorts(testData)
     loadChart(testData);
   });
 
@@ -656,7 +712,7 @@ function generateSecurityGroup(securityGroups) {
 
       //Create categories
       createCategories(testData)
-
+      setValuesOfPorts(testData)
 
       console.log(testData);
 
@@ -726,6 +782,7 @@ function generateMultipleSecurityGroups(securityGroups) {
 
       //Create categories
       createCategories(testData)
+      setValuesOfPorts(testData)
 
       loadChart(testData);
     });
