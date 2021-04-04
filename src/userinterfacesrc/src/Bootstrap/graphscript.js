@@ -31,6 +31,8 @@ Some of the font cases will be lower case. This isn't an actual issue  but it do
 
 
 New Instance ID entered does not refresh graph
+
+In and out buttuns require you to type into search bar and not use history
 */
 
 
@@ -38,29 +40,36 @@ New Instance ID entered does not refresh graph
 var searchBar = document.getElementById('searchBar');
 var search = "";
 searchBar.addEventListener('keyup', (e) => {
-    var searchString = e.target.value.toLowerCase();
+    search = e.target.value.toLowerCase();
    // console.log(searchString);
     if (e.key === "Enter") 
     {
-        search = searchString ;
         generateSingleNode(search);
-    
     }
     else if (e.key  == "ArrowLeft") {
       // left arrow
-      search = searchString ;
-      alert(search +" outgoing ");
+      // alert(search +" outgoing ");
       generateSingleNodeOutgoing(search);
      }
     else if (e.key  == "ArrowRight") {
       // right arrow
-      search = searchString ;
-      alert(search +" incoming ");
+      // alert(search +" incoming ");
       generateSingleNodeIncoming(search);
   }
-
     console.log(search);
-    
+});
+
+//functions that catch In and Out button presses
+document.getElementById("incomingBtn").addEventListener("click", function() {
+  //console.log(search);
+  // alert(search +" IN ");
+  generateSingleNodeIncoming(search);
+});
+
+document.getElementById("outgoingBtn").addEventListener("click", function() {
+//console.log(search);
+// alert(search +" OUT ");
+generateSingleNodeOutgoing(search);
 });
 
 
@@ -223,7 +232,7 @@ function createlinks(data,testData,oldLink,k)
               target: data.links[k].target,
 
               lineStyle: {
-                color: "green",
+                color:  "#37f065" , //turquioise
                 curveness: 0.3
               },
             });
@@ -459,7 +468,7 @@ that echarts will accept. It will only convert the desired nodes
           category: data.nodes[i].type,
           // symbol: "square",
           itemStyle: {
-            color: sourceNode ? "blue" : "red",
+            color: sourceNode ? "blue" :  "#cf6dca",
           },
         };
         numberOfnodes++;
@@ -554,7 +563,7 @@ that echarts will accept. It will only convert the desired nodes
             category: data.nodes[i].type,
             // symbol: "square",
             itemStyle: {
-              color: sourceNode ? "blue" : "red",
+              color: sourceNode ? "blue" : "#a738e8", //purple
             },
           };
           numberOfnodes++;
@@ -844,8 +853,8 @@ function loadChart(graph) {
         edgeSymbolSize: [1, 10],
 
         force: {
-          // repulsion: 2000,
-          // edgeLength: 60
+          repulsion: 100,
+          edgeLength: 250
       },
 
         data: graph.nodes,
