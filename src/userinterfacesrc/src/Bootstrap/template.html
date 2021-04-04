@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" href="assets/img/es.PNG">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>Graph</title>
+    <title>Single Node</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -45,25 +45,37 @@
                     <a class="simple-text">
                 AWS Topology Mapper
             </a>
+
+                <icon class="half" style="display:flex">
+                    <img src="assets/img/es.PNG" alt= "edgescan" width="40" height="40" style="border:1px solid white">
+                    <img src="assets/img/aws.PNG" alt= "aws" width="40" height="40" style="border:1.5px solid white">
+                    </icon>
                 </div>
 
                 <ul class="nav">
                     <li>
                         <a href="dash.html">
-                            <i class="pe-7s-smile"></i>
+                            <i class="pe-7s-home"></i>
                             <p>Home </p>
                         </a>
                     </li>
                     <li >
-                        <a href="dashboard.html">
-                            <i class="pe-7s-graph3"></i>
-                            <p>Dashboard Sample</p>
-                        </a>
-                    </li>
                         <li class="active">
                         <a href="template.html">
+                            <i class="pe-7s-share"></i>
+                            <p>Single Node</p>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="entireGraph.html">
+                            <i class="pe-7s-science"></i>
+                            <p>Entire Graph</p>
+                        </a>
+                    </li>
+                    <li >
+                        <a href="securityGroups.html">
                             <i class="pe-7s-graph1"></i>
-                            <p>Graph</p>
+                            <p>Security Groups</p>
                         </a>
                     </li>
                 </ul>
@@ -71,7 +83,7 @@
         </div>
 
         <div class="main-panel">
-            <nav class="navbar navbar-default navbar-fixed">
+            <nav class="navbar navbar-ct-orange navbar-fixed">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse">
@@ -111,16 +123,22 @@
                             </li>
                         </ul>
                        
-                       <!-- add above in below other main-->
-                 <form class="form-inline"></form>
-                 <input type="search" name = "searchBar" id ="searchBar" placeholder="Search by instance ID" aria-label="Search">
-                 <button type="submit" Search class="btn btn-default btn-sm">
-                     <a href="template.html">
-                         <i class="fa fa-refresh"></i>
-                     </a>
-                     </button>
-             </form>
+                        <ul class="nav navbar-nav navbar-left">
+                        <form class="form-inline"></form>
+                        <input type="search" name = "searchBar" id ="searchBar" placeholder="Search by instance ID" aria-label="Search">
+                        <button type="submit" Search class="btn btn-default btn-xs">
+                            <a href="template.html">
+                            </a>
+                            <i class="fa fa-refresh"></i>
+                            </button>
+                    </form>
+                    </ul>
 
+                        <ul class="nav navbar-nav navbar-left">
+                            <p style="color:grey;font-size:11px;">&nbsp;</p>   <!--this is to format the bottom tex properly-->
+                            <p style="color:grey;font-size:14px;">Press the left arrow key for outgoing </p>
+                            <p style="color:grey;font-size:14px;">Press the right arrow key for incoming</p>   
+                        </ul>
                     </div>
                 </div>
             </nav>
@@ -135,8 +153,8 @@
                     <nav class="pull-left">
                         <ul>
                             <li>
-                                <a href="#">
-                                Graph
+                                <a href="dash.html">
+                                Home
                             </a>
                             </li>
 
