@@ -153,9 +153,113 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header" >
+                                <h2 class="title" >Amazon Web Services Topology  Terminology.</h4>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped ">
+                                    <thead>
+                                    	<th>Term</th>
+                                    	<th>Defination</th>
+                                        <th>How to filter for it</th>
+                                    </thead>
+                                    <tbody>
+                                            <tr style="background-color:#ffdab9"> <!--peach-->
+                                        	<td>EC2</td>
+                                        	<td>Elastic Compute Cloud is a virtual server in Amazon Web services terminology </td>
+                                        	<td>All graphs display ec2 instances. Single node graph currently lets you search a single ec2 instance by id and see all its in-going and out-going conections </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Load Balancer</td>
+                                        	<td>The process of distributing a set of tasks over a set of resources, with the aim of making their overall processing more efficient.</td>
+                                        	<td>App Balancer a type of load balancer is currently visble on all graphs</td>
 
-                    
+                                        </tr>
+                                        <tr style="background-color:#ffdab9">  
+                                            <td>Data Base</td>
+                                        	<td>AWS supports multiple data bases such as RDS.</td>
+                                        	<td>Click on the data base icon on any graph </td>
+                                        </tr>
+                                        <tr>
+                                            <td>App Balancer</td>
+                                        	<td>Short for Application Load Balancer. It is a type of load balancer</td>
+                                        	<td>Click on the app balancer icon on any graph</td>
 
+                                        </tr>
+                                        <tr style="background-color:#ffdab9"> 
+                                        	<td>RDS</td>
+                                        	<td>Relational Database Service (Amazon RDS) is a web service that allows you to quickly create a relational database instance in the cloud. </td>
+                                        	<td>Currently appears on all the graphs in the form of data base icon </td>
+                                        </tr>
+                                        <tr>
+                                        	<td>Security Groups</td>
+                                        	<td>A security group acts as a virtual firewall for EC2 instances to control incoming and outgoing traffic.</td>
+                                        	<td>In the security groups graph search for a security group and press enter to see its details. Multiple security groups can be searched by listing them and seperating by a comma. Ensure security group is typed exactly with correct casing and spacing .</td>
+                                        </tr>
+                                        <tr style="background-color:#ffdab9"> 
+                                        	<td>Source </td>
+                                        	<td>The instance that the current instance is connected to </td>
+                                        	<td>Instance id of the source is listed in the graph link.</td>
+                                        </tr>
+                                        <tr>
+                                        	<td>Instance Name </td>
+                                        	<td>The instance name given to the specific instance </td>
+                                        	<td>The names of the instances are displayed on the screen. Hover over a specifc link to highlight it and see the direction of the conection.</td>
+                                        </tr>
+                                        <tr style="background-color:#ffdab9"> 
+                                        	<td>Ports & Protocols</td>
+                                        	<td>Referes to the ports and protocol connections of an instance.</td>
+                                        	<td>Hover over a graph link to see the ports and protocols assoicated with it .</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header" >
+                                <h2 class="title" >Graph Overview</h4>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped ">
+                                    <thead>
+                                    	<th>Name</th>
+                                    	<th>What is visualises</th>
+                                        <th>How to use it</th>
+                                        <!-- <th>How to filter for it</th> -->
+                                    </thead>
+                                    <tbody>
+                                            <tr style="background-color:#ffdab9"> <!--peach-->
+                                        	<td>Single Node</td>
+                                            <td>This graph shows the conection between an ec2 instance to all other ec2 instances. </td>
+                                            <td>Simply press enter in the search bar for both incoming and outgoing. Filter to just incoming by pressing the down arrow on screen or the up arrow for outgoing .Alternativly press the left arrow for out or right arrow for in on the keyboard instead of enter.</td>
+                                        <tr>
+                                            <td>Entire Graph</td>
+                                        	<td>Visualisation of all the instance connected to each other.</td>
+                                        	<td>Hover over the links or nodes to find the information</td>
+
+                                        </tr>
+                                        <tr style="background-color:#ffdab9">  
+                                            <td>Security Group</td>
+                                        	<td>Shows the connection of single or multiple security group</td>
+                                        	<td>In the security groups graph search for a security group and press enter to see its details. Multiple security groups can be searched by listing them and seperating by a comma. Ensure security group is typed exactly with correct casing and spacing .</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
