@@ -71,24 +71,61 @@ function nodeOverLapCheckerAndConcatenation(data,testData,k)
               &&data.links[k].target ==testData.links[m].target)
             {
               var newSource=true;
+              var newProtocol=true;
               var p;
+
+
               for(p=0;p<testData.links[m].infoSources.length;p++)
               {
-                if(testData.links[m].infoSources[p].source==data.links[k].info.source)
+                if(testData.links[m].infoSources[p].source==data.links[k].info.source)//If they have the same source//if newSource is true then we wont find any new protocols
                 {
-                  testData.links[m].infoSources[p].ports.push(data.links[k].info.port.toString());
+                  var t;
+                  for(t=0;t<testData.links[m].infoSources[p].protoPorts.length;t++)
+                  {
+                    if(testData.links[m].infoSources[p].protoPorts[t].protocol==data.links[k].info.protocol)//If they have the same protocol
+                    {
+                      
+                      testData.links[m].infoSources[p].protoPorts[t].ports.push(data.links[k].info.port.toString());
+                      newProtocol=false;
+
+                    }
+
+                  }
+
+                  // testData.links[m].infoSources[p].ports.push(data.links[k].info.port.toString());
                   newSource=false;
                 }
               }
-              if(newSource==true)
+
+              //if newProtocol is false then newSource is false
+              //if new Source is true then new Protocol is true
+
+              if(newProtocol==true && newSource==false)//If same source but new protocol
               {
-
                 var portString=data.links[k].info.port.toString();
+                var sourcesProtocolsPorts={
 
-                var infoSourcesPorts={
-                  source:[data.links[k].info.source.toString()],
+                  protocol:data.links[k].info.protocol.toString(),
                   ports:[portString]
     
+    
+                }
+                testData.links[k].infoSources.push(sourcesProtocolsPorts);//new protocol added with corresponding port
+              }
+              if(newSource==true)
+              {
+                var portString=data.links[k].info.port.toString();
+                var sourcesProtocolsPorts={
+    
+                  protocol:data.links[k].info.protocol.toString(),
+                  ports:[portString]
+    
+    
+                }
+                var infoSourcesPorts={
+
+                  source:data.links[k].info.source.toString(),
+                  protoPorts:[sourcesProtocolsPorts],
     
                 }
                 testData.links[m].infoSources.push(infoSourcesPorts);
@@ -105,7 +142,7 @@ function nodeOverLapCheckerAndConcatenation(data,testData,k)
 /*
 This function should set the value property of each and every link. It does this by accessing the
 infoSources array inside each link. From that is gets the source property in each array index and adds it to value string. Then
-it gets each and every port from the ports array alongside that source and adds it the the value string.
+it gets each and every protcols and their corresponding ports from the ports array alongside that source and adds it the the value string.
 It repeats this process for each unique source in the infoSources Array.
 
 */
@@ -113,31 +150,29 @@ function setValuesOfPorts(testData)
 {
   var x;
   var valueString="";
-  for(x=0;x<testData.links.length;x++)
+  for(x=0;x<testData.links.length;x++)//Going through the links
   {
     valueString="";
     var y;
-    for(y=0;y<testData.links[x].infoSources.length;y++)
+    for(y=0;y<testData.links[x].infoSources.length;y++)//Going through the sources 
     {
-
-      valueString=valueString +"Source:" +testData.links[x].infoSources[y].source.toString()+"  ____Ports     :";
-
-      var z;
-      for(z=0;z<testData.links[x].infoSources[y].ports.length;z++)
+      valueString=valueString +"Source:" +testData.links[x].infoSources[y].source.toString();
+      var v;
+      for(v=0;v<testData.links[x].infoSources[y].protoPorts.length;v++)//Going through the protocols contained inside thouse sources
       {
+        valueString=valueString +"___protocol:" +testData.links[x].infoSources[y].protoPorts[v].protocol.toString()+"  __Ports    :";
+        var z;
+        for(z=0;z<testData.links[x].infoSources[y].protoPorts[v].ports.length;z++)//Going through the ports contained within those protocols
+        {
+          valueString=valueString+testData.links[x].infoSources[y].protoPorts[v].ports[z].toString()+"     :";
+        }
 
-        valueString=valueString+testData.links[x].infoSources[y].ports[z].toString()+"     :";
       }
-
-
     }
-
+    // console.log(valueString);
     testData.links[x]["value"]=valueString
-
   }
-
 }
-
 
 
 /*
@@ -175,10 +210,16 @@ function createlinks(data,testData,oldLink,k)
   {
             var portString=data.links[k].info.port.toString();
 
-            var infoSourcesPorts={
-              source:[data.links[k].info.source.toString()],
-              ports:[portString]
+            var sourcesProtocolsPorts={
 
+              protocol:data.links[k].info.protocol.toString(),
+              ports:[portString]
+            }
+
+            var infoSourcesPorts={
+
+              source:data.links[k].info.source.toString(),
+               protoPorts:[sourcesProtocolsPorts],
             }
               testData.links.push({
               infoSources:[infoSourcesPorts], 
@@ -195,6 +236,7 @@ function createlinks(data,testData,oldLink,k)
   
     }
 }
+
 
 
 
