@@ -9,24 +9,12 @@ var links = new Array();
 var categories = new Array();
 var testData = { nodes, links, categories };
 
-
-var securityGroupsArray = ["",""];
-
-
+//var securityGroupsArray = ["",""];
 myChart.showLoading();
 
-generateEntireGraph();
 
-/*
-Known Issues:
-
-ClearGlobalArrays is still broken. Will need to fix later
-Some of the font cases will be lower case. This isn't an actual issue  but it does make it more difficult to read the code
-
-
-New Instance ID entered does not refresh graph
-*/
-
+var portsArray=["-1"]
+// generateMultiplePorts(portsArray);
 
 
 /*
@@ -34,20 +22,19 @@ General Purpose functions that are used in each of the graph generating function
 */
 
 
-
 //This empties the global arrays so other graphs can be drawn
 function clearGlobalArrays()
 {
 
-          while(testData.nodes.length > 0) {
-            testData.nodes.length.pop();
-        }
-        while(testData.links.length > 0) {
-          testData.links.length.pop();
-        }
-        while(testData.categories.length > 0) {
-          testData.categories.length.pop();
-        }      
+        //   while(testData.nodes.length > 0) {
+        //     testData.nodes.length.pop();
+        // }
+        // while(testData.links.length > 0) {
+        //   testData.links.length.pop();
+        // }
+        // while(testData.categories.length > 0) {
+        //   testData.categories.length.pop();
+        // }      
 
 }
 
@@ -384,6 +371,7 @@ function determineNameAndType(data,i)
 
 
 
+
 /*
 Graph Generating Functions are below
 Current functions that have been implemented are:
@@ -396,69 +384,140 @@ generateMultipleSecurityGroups(securityGroup Input Array)
 */
 
 
-function generateEntireGraph() 
-{
+
+function generateMultiplePorts(portsArray) {
   fetch("work.json")
     .then((response) => response.json())
     .then((data) => {
       clearGlobalArrays();
-/*
-This for loop iterates over the data.links array
-It then adds it to the testData.links array depending on whether or not the link is a duplicate
-*/
-      var k;
-      for (k = 0; k < data.links.length; k++) 
-      {
-              var oldLink=nodeOverLapCheckerAndConcatenation(data,testData,k);
-              createlinks(data,testData,oldLink,k);
-      }
       var i;
       var numberOfnodes = 0;
 
-      console.log(data)
-      for (i = 0; i < data.nodes.length; i++) 
+      var k;
+      for (k = 0; k < data.links.length; k++) 
+      {
+        var oldLink=nodeOverLapCheckerAndConcatenation(data,testData,k);
+        createlinksContainingPorts(data,testData,oldLink,k,portsArray)
+      }
+      
+      var connectionsWithCorrectPorts=new Array();
+      var r
+      for(r=0;r<testData.links.length;r++)
       {
 
-             /*
-              Creating a new array of nodes using the input JSON file
-              I used the numberOfnodes variable because It made debugging easier
-            */
+        var containsPorts=false;
+        var prts;
+        for(t=0;t<portsArray.length;t++)
+        {
+          prts=portsArray[t];
+         if(testData.links[r].ports.includes(prts))
+         {
+          containsPorts=true;
+         }
+        }
 
+
+        if ( containsPorts==true) {
+          
+          if(connectionsWithCorrectPorts.includes(testData.links[r].source)==false)
+          {
+            console.log(testData.links[r].source);
+            connectionsWithCorrectPorts.push(testData.links[r].source);
+            var x;
+            var nodeIndex
+            for(x=0;x<data.nodes.length;x++)
+            {
+
+              var nta= new Array();
+              nta =  determineNameAndType(data,x);
+              idN = nta[0];
+
+
+              if(idN==testData.links[r].source)//Need to check for Arns as well
+              {
+                nodeIndex=x;
+              } 
+              // if(data.nodes[x].instanceID==testData.links[r].source)
+              // {
+              //   nodeIndex=x;
+              // }             
+            }
 
             var idOfNode;
             var nameOfNode;
             var nameAndTypeArray= new Array();
-            nameAndTypeArray =  determineNameAndType(data,i);
+            nameAndTypeArray =  determineNameAndType(data,nodeIndex);
             idOfNode=nameAndTypeArray[0];
             nameOfNode=nameAndTypeArray[1];
+  
+            //Creating the node
+            testData.nodes[numberOfnodes] = {
+              id: idOfNode,
+              name: nameOfNode,
+              symbolSize: 3,
+              value: 0,
+              category: data.nodes[nodeIndex].type,
+              symbol: "square",
+              
+            };
+            numberOfnodes++;
+          }
+          if(connectionsWithCorrectPorts.includes(testData.links[r].target)==false)
+          {
+            console.log(testData.links[r].target);
+            // console.log("test");
+            connectionsWithCorrectPorts.push(testData.links[r].target);
+            var x;
+            var nodeIndex
+            for(x=0;x<data.nodes.length;x++)
+            {
+
+              var nta= new Array();
+              nta =  determineNameAndType(data,x);
+              idN = nta[0];
 
 
+              if(idN==testData.links[r].target)//Need to check for Arns as well
+              {
+                nodeIndex=x;
+              }             
+            }
 
-
-          testData.nodes[numberOfnodes] = {
-            id: idOfNode,
-            name: nameOfNode,
-            symbolSize: 0.2,
-            value: 0,
-            category: data.nodes[i].type,
-            symbol: "square",
-          };
-
-          //Incrementing the number of nodes
-          numberOfnodes++;
-        // }
-
-        alreadyExists = false;
+            var idOfNode;
+            var nameOfNode;
+            var nameAndTypeArray= new Array();
+            nameAndTypeArray =  determineNameAndType(data,nodeIndex);
+            idOfNode=nameAndTypeArray[0];
+            nameOfNode=nameAndTypeArray[1];
+  
+            //Creating the node
+            testData.nodes[numberOfnodes] = {
+              id: idOfNode,
+              name: nameOfNode,
+              symbolSize: 3,
+              value: 0,
+              category: data.nodes[nodeIndex].type,
+              symbol: "square",
+              
+            };
+            numberOfnodes++;
+          }
+        }
       }
+
+    //  console.log();
+    console.log(connectionsWithCorrectPorts);
+    
+      console.log(testData);
 
       //Create categories
       createCategories(testData)
       setValuesOfPorts(testData)
-      console.log(testData);
 
       loadChart(testData);
     });
 }
+
 
 function loadChart(graph) {
   myChart.hideLoading();

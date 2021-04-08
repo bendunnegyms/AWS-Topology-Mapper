@@ -12,6 +12,9 @@ var testData = { nodes, links, categories };
 
 
 var securityGroupsArray = ["",""];
+// var portsArray=["-1"]
+// generateMultiplePorts(portsArray);
+
 
 
 myChart.showLoading();
@@ -100,18 +103,17 @@ function clearGlobalArrays()
 
 /*
 This function returns true/false dependind on whether there is an overlapping of links and
-if there is then it determines the source of the ports of that link and
-adds those ports to a ports array inside infoSources that will correspond to the
-info.source it is connected to If there isn't any overlap then it returns false
+if there is then it determines the source of the ports and protocols of that link and
+adds those ports to a ports array inside the testData link it is connected to If there isn't any overlap then it returns false
 As an input it takes the data array, the testData array and the integer k which is the index number of
-the data.links array we are comparing with
+the data.links array we are comparing with.
+
+There are essentially two ports and protocols arrays, one is a general one we use just to check for the ports/protocols in a particular link
+The second set is used to tie specific sources to specific protocols which then have specific ports on them. We only use the second set for the
+edge value while the first set is used for any .include() functions.
 */
 function nodeOverLapCheckerAndConcatenation(data,testData,k)
 {         
-
-  //So we need to tie protocols with ports
-
-
           var m;
           var duplicateLink=false;
           for(m=0;m<testData.links.length;m++)
@@ -122,6 +124,11 @@ function nodeOverLapCheckerAndConcatenation(data,testData,k)
               var newSource=true;
               var newProtocol=true;
               var p;
+
+
+              testData.links[m].ports.push(data.links[k].info.port);
+              testData.links[m].protocols.push(data.links[k].info.protocol);
+
 
 
               for(p=0;p<testData.links[m].infoSources.length;p++)
@@ -146,9 +153,6 @@ function nodeOverLapCheckerAndConcatenation(data,testData,k)
                 }
               }
 
-              //if newProtocol is false then newSource is false
-              //if new Source is true then new Protocol is true
-
               if(newProtocol==true && newSource==false)//If same source but new protocol
               {
                 var portString=data.links[k].info.port.toString();
@@ -159,19 +163,11 @@ function nodeOverLapCheckerAndConcatenation(data,testData,k)
     
     
                 }
-
                 testData.links[k].infoSources.push(sourcesProtocolsPorts);//new protocol added with corresponding port
-
-
               }
-
-
-
               if(newSource==true)
               {
-
                 var portString=data.links[k].info.port.toString();
-
                 var sourcesProtocolsPorts={
     
                   protocol:data.links[k].info.protocol.toString(),
@@ -194,6 +190,7 @@ function nodeOverLapCheckerAndConcatenation(data,testData,k)
           }
           return duplicateLink;
 }
+
 
 
 /*
@@ -284,16 +281,84 @@ function createlinks(data,testData,oldLink,k)
                 
               source: data.links[k].source,
               target: data.links[k].target,
+              protocols:[],//Not used in edge value
+              ports:[],//Not used in edge value
 
               lineStyle: {
                 color: "green",
                 curveness: 0.3
               },
             });
+
+
+            testData.links[testData.links.length-1].ports.push(portString);
+            testData.links[testData.links.length-1].ports.push(data.links[k].info.protocol);
           oldLink=true;
   
     }
 }
+
+
+
+/*
+This function creates a link and places it into the testData.links array
+The oldLink boolean is there to make sure there isn't another link with the same source/target node  so we dont
+make a duplicate by accident. Integer k is the index number of data.links we are referencing
+*/
+function createlinksContainingPorts(data,testData,oldLink,k,portsArray)
+{
+
+  var portString=data.links[k].info.port.toString();
+  var containsPorts=false;
+  var m;
+  
+  for(m=0;m<portsArray.length;m++)
+  {
+    if(portsArray.includes(portString))
+    {
+      containsPorts=true;
+
+    }
+  }
+
+
+  if(oldLink==false &&containsPorts==true)
+  {
+            
+
+            var sourcesProtocolsPorts={
+
+              protocol:data.links[k].info.protocol.toString(),
+              ports:[portString]
+            }
+
+            var infoSourcesPorts={
+
+              source:data.links[k].info.source.toString(),
+               protoPorts:[sourcesProtocolsPorts],
+            }
+              testData.links.push({
+              infoSources:[infoSourcesPorts], 
+                
+              source: data.links[k].source,
+              target: data.links[k].target,
+              protocols:[],//Not used in edge value
+              ports:[],//Not used in edge value
+
+              lineStyle: {
+                color: "green",
+                curveness: 0.3
+              },
+            });
+
+
+            testData.links[testData.links.length-1].ports.push(portString);
+            testData.links[testData.links.length-1].ports.push(data.links[k].info.protocol);
+          oldLink=true;
+  
+    }
+}
+
 
 
 
