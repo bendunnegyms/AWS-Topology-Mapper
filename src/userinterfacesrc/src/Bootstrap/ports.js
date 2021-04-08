@@ -13,8 +13,23 @@ var testData = { nodes, links, categories };
 myChart.showLoading();
 
 
-var portsArray=["-1"]
+// var portsArray=["-1"]
 // generateMultiplePorts(portsArray);
+
+//search triggers once enter is pressed and this string changed into an array , seperated that is fed into securityGroups
+var searchBar = document.getElementById('searchBar');
+var search = "";
+searchBar.addEventListener('keyup', (e) => {
+    var searchString = e.target.value ;
+   // console.log(searchString);
+    if (e.key === "Enter") 
+    {
+        search = searchString ;
+         portsArray = search.split(",");
+         console.log(portsArray);    
+         generateMultiplePorts(portsArray);   
+    }
+});
 
 
 /*
