@@ -1,7 +1,9 @@
 # AWS-Topology-Mapper
   
-  This readme will describe setting up the environment for now.
-  
+This readme will describe setting up the environment for now.
+
+(SWENG 2021 Group 38)
+
 ## Prerequisites
 **npm** (node package manager) is the dependency/package manager you get out of the box when you install Node.js. I installed the react app with the latest version of Node. Node.js allows for javascript code to be executed outside of a browser.
 **python 3.8.5** 
