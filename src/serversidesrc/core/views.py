@@ -4,9 +4,9 @@ from . models import *
 from rest_framework.response import Response 
 from .serializer import *
 
-from to_frontend_format import ec2_instances_to_frontend_format
-from describe_ec2_instances import ec2_api_details as ec2
-from describe_sec_groups import security_group_api_details as secgroups
+from .apisrc.to_frontend_format import ec2_instances_to_frontend_format
+from .apisrc.describe_ec2_instances import ec2_api_details as ec2
+from .apisrc.describe_sec_groups import security_group_api_details as secgroups
 
 # Create your views here. 
 
@@ -53,3 +53,7 @@ class EC2_Instances(APIView):
         print(request.text())
         instance_details = ec2_instances_to_frontend_format(secgroups(),ec2())
         return Response(instance_details)
+
+class index(APIView):
+    def get(self, request):
+        return render(request, "../../../userinterfacesrc/src/Bootstrap/dash.html")

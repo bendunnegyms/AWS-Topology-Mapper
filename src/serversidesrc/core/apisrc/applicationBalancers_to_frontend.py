@@ -1,4 +1,4 @@
-from get_sg_name import get_sg_name as getSg_name
+from .get_sg_name import get_sg_name as getSg_name
 
 def app_balancers_to_frontend_format(security_groups_data, app_balancers_data):
 

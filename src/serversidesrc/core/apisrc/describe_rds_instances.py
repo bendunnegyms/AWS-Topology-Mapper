@@ -1,7 +1,7 @@
 import boto3
 import json
 
-from dateSerializer import dateSerializer as dateToJson
+from .dateSerializer import dateSerializer as dateToJson
 
 def getRDSDetails():
     rds = boto3.client('rds')

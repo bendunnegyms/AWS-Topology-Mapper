@@ -1,7 +1,7 @@
 import boto3
 import json
 
-from dateSerializer import dateSerializer as dateToJson
+from .dateSerializer import dateSerializer as dateToJson
 
 #returns jsons of instances and security groups
 def ec2_api_details():

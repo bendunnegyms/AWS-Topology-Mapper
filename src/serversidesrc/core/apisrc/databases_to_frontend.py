@@ -1,5 +1,5 @@
 import json
-from get_sg_name import get_sg_name as getSg_name
+from .get_sg_name import get_sg_name as getSg_name
 
 def databases_to_frontend_format(security_groups_data, database_data):
 
