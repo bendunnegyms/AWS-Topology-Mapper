@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" type="image/png" href="static/img/es.PNG">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>Ports</title>
+    
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <!-- Bootstrap core CSS     -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Animation library for notifications   -->
+    <link href="static/css/animate.min.css" rel="stylesheet"/>
+
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="static/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet"/>
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="static/css/pe-icon-7-stroke.css" rel="stylesheet" />
+
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="sidebar" data-color="orange" data-image="static/img/sidebar-5.jpg">
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                <a class="simple-text">
+                    AWS Topology Mapper
+                </a>
+                <icon class="half" style="display:flex">
+                <img src="static/img/es.PNG" alt= "edgescan" width="40" height="40" style="border:1px solid white">
+                <img src="static/img/aws.PNG" alt= "aws" width="40" height="40" style="border:1.5px solid white">
+                 </icon>
+            </div>
+
+            <ul class="nav">  <!--Changed all of this so come back-->
+               <li>
+                    <a href="/">
+                        <i class="pe-7s-home"></i>
+                        <p>Home </p>
+                    </a>
+                </li>
+                <li>
+                    <a href="NodeView">
+                        <i class="pe-7s-share"></i>
+                        <p>Single Node</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="GlobalView">
+                        <i class="pe-7s-science"></i>
+                        <p>Entire Graph</p>
+                    </a>
+                </li>
+                <li >
+                    <a href="SecurityGroups">
+                        <i class="pe-7s-graph1"></i>
+                        <p>Security Groups</p>
+                    </a>
+                </li>
+                    <li class="active">
+                    <a href="Ports">
+                        <i class="pe-7s-vector"></i>
+                        <p>Ports</p>
+                    </a>
+                </li>
+        
+               
+            </ul>
+    	</div>
+    </div>
+
+    <div class="main-panel">
+        <nav class="navbar navbar-ct-orange navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                 <!--     <i class="fa fa-refresh"></i> this button isnt working idk why yet-->   
+                                <!-- add similar class to add more icons to navbar-->
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-left">
+                        <li>
+                            
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="">
+                           Log out
+                        </a>
+                        </li>
+                    </ul>
+                   
+                 
+             <ul class="nav navbar-nav navbar-left">
+             <form class="form-inline"></form> 
+             <input type="search" name = "searchBar" id ="searchBar" placeholder="Search by ports" aria-label="Search">
+             <a href="ports.html">  
+             <button type="submit" Search class="btn btn-default  btn-xs btn-outline">
+                 <i class="fa fa-refresh"></i>
+                 </button>    
+                </a> 
+              </form>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-left">
+                <p style="color:grey;font-size:11px;">&nbsp;</p>   <!--this is to format the bottom tex properly-->
+                <p style="color:grey;font-size:14px; font-weight: normal;">Use commas to seperate ports </p>  
+                </ul>
+
+                </div>
+            </div>
+        </nav>
+
+        <div id="container" style="height: 100%"></div>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+            <script type="text/javascript" src="ports.js"></script>
+
+        <footer class="footer">
+            <div class="container-fluid bg-warning">
+                <nav class="pull-left">
+                    <ul>
+                        <li>
+                            <a href="dash.html">
+                                Home
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+                <p class="copyright pull-right">
+                    Created by Group 38 in Collaboration with Edgescan
+                </p>
+            </div>
+        </footer>
+
+
+    </div>
+</div>
+
+
+</body>
+<!--   Core JS Files   -->
+<script src="static/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="static/js/bootstrap.min.js" type="text/javascript"></script>
+
+<script src="static/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
+<script type="text/javascript">
+  
+</script>
+
+</html>

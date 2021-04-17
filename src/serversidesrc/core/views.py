@@ -56,4 +56,20 @@ class EC2_Instances(APIView):
 
 class index(APIView):
     def get(self, request):
-        return render(request, "../../../userinterfacesrc/src/Bootstrap/dash.html")
+        return render(request, "dash.html")
+
+class single_node(APIView):
+    def get(self, request):
+        return render(request, "template.html")
+
+class entire_graph(APIView):
+    def get(self, request):
+        return render(request,"entireGraph.html")
+
+class security_groups(APIView):
+    def get(self, request):
+        return render(request, "securityGroups.html")
+
+class ports(APIView):
+    def get(self, request):
+        return render(request, "ports.html")
