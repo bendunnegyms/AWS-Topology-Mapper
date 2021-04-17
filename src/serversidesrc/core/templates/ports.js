@@ -436,7 +436,7 @@ function generateMultiplePorts(portsArray) {
           
           if(connectionsWithCorrectPorts.includes(testData.links[r].source)==false)
           {
-            console.log(testData.links[r].source);
+            
             connectionsWithCorrectPorts.push(testData.links[r].source);
             var x;
             var nodeIndex
@@ -479,8 +479,8 @@ function generateMultiplePorts(portsArray) {
           }
           if(connectionsWithCorrectPorts.includes(testData.links[r].target)==false)
           {
-            console.log(testData.links[r].target);
-            // console.log("test");
+            
+            
             connectionsWithCorrectPorts.push(testData.links[r].target);
             var x;
             var nodeIndex
@@ -520,10 +520,7 @@ function generateMultiplePorts(portsArray) {
         }
       }
 
-    //  console.log();
-    console.log(connectionsWithCorrectPorts);
-    
-      console.log(testData);
+
 
       //Create categories
       createCategories(testData)
