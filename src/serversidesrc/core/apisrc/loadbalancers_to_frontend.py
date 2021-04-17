@@ -1,6 +1,6 @@
 import json
-from get_sg_id import get_sg_id as get_sg_id
-from get_sg_name import get_sg_name as getSg_name
+from .get_sg_id import get_sg_id as get_sg_id
+from .get_sg_name import get_sg_name as getSg_name
 
 def load_balancers_to_frontend_format(security_groups_data, load_balancers_data):
 

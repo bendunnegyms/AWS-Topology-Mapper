@@ -11,7 +11,8 @@ urlpatterns = [
     path('NodeView', single_node.as_view(), name="Single Node"),
     path('GlobalView', entire_graph.as_view(), name="Global View"),
     path('SecurityGroups', security_groups.as_view(), name="Security Groups"),
-    path('Ports', ports.as_view(), name="Ports")
+    path('Ports', ports.as_view(), name="Ports"),
+    path("graph_data", graph_data.as_view(), name="graph_data")
     #path('loadbalancer_instances/', Loadbalancer_Instances.as_view(), name="loadbalancer_instances"),
     #path('database_instances/', Database_Instances.as_view(), name="database_instances")
 ]

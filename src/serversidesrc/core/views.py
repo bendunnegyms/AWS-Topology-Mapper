@@ -7,6 +7,7 @@ from .serializer import *
 from .apisrc.to_frontend_format import ec2_instances_to_frontend_format
 from .apisrc.describe_ec2_instances import ec2_api_details as ec2
 from .apisrc.describe_sec_groups import security_group_api_details as secgroups
+from .apisrc.compile_data import compile_data
 
 # Create your views here. 
 
@@ -73,3 +74,7 @@ class security_groups(APIView):
 class ports(APIView):
     def get(self, request):
         return render(request, "ports.html")
+
+class graph_data(APIView):
+    def get(self,request):
+        return Response(compile_data())

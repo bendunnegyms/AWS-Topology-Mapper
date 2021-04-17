@@ -614,7 +614,7 @@ that echarts will accept. It will only convert the desired nodes
 
 
 function generateSingleNodeOutgoing(NodeID) {
-  fetch("work.json")
+  fetch("graph_data")
     .then((response) => response.json())
     .then((data) => {
       clearGlobalArrays();
@@ -698,7 +698,7 @@ that echarts will accept. It will only convert the desired nodes
 }
 
 function generateSingleNodeIncoming(NodeID){
-  fetch("work.json")
+  fetch("graph_data")
   .then((response) => response.json())
   .then((data) => {
     clearGlobalArrays();
@@ -795,7 +795,7 @@ that echarts will accept. It will only convert the desired nodes
 
 
 function generateSecurityGroup(securityGroups) {
-  fetch("work.json")
+  fetch("graph_data")
     .then((response) => response.json())
     .then((data) => {
       clearGlobalArrays();
@@ -852,7 +852,7 @@ function generateSecurityGroup(securityGroups) {
 
 
 function generateMultipleSecurityGroups(securityGroups) {
-  fetch("work.json")
+  fetch("graph_data")
     .then((response) => response.json())
     .then((data) => {
       clearGlobalArrays();

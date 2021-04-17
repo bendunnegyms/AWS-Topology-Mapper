@@ -398,7 +398,7 @@ generateMultipleSecurityGroups(securityGroup Input Array)
 
 function generateEntireGraph() 
 {
-  fetch("work.json")
+  fetch("http://localhost:8000/graph_data")
     .then((response) => response.json())
     .then((data) => {
       clearGlobalArrays();
