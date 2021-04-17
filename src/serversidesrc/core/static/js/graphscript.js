@@ -223,7 +223,8 @@ function setValuesOfPorts(testData)
 
       }
     }
-    // console.log(valueString);
+    
+
     testData.links[x]["value"]=valueString
   }
 }
@@ -464,7 +465,7 @@ It then adds it to the testData.links array depending on whether or not the link
       var i;
       var numberOfnodes = 0;
 
-      console.log(data)
+      
       for (i = 0; i < data.nodes.length; i++) 
       {
 
@@ -503,7 +504,7 @@ It then adds it to the testData.links array depending on whether or not the link
       //Create categories
       createCategories(testData)
       setValuesOfPorts(testData)
-      console.log(testData);
+      
 
       loadChart(testData);
     });
@@ -546,7 +547,7 @@ function generateSingleNode(NodeID){
         createlinks(data,testData,oldLink,k);
     }
     }
-    console.log(testData.links);
+    
 
     /*
 This for loop iterates over the nodes array in the JSON data and converts it into a format
@@ -599,7 +600,7 @@ that echarts will accept. It will only convert the desired nodes
     createCategories(testData)
     setValuesOfPorts(testData)
 
-  // console.log(testData);
+  
 
     loadChart(testData);
   });
@@ -641,7 +642,7 @@ function generateSingleNodeOutgoing(NodeID) {
           createlinks(data,testData,oldLink,k);
       }
       }
-      console.log(testData.links);
+      
 
       /*
 This for loop iterates over the nodes array in the JSON data and converts it into a format
@@ -725,7 +726,7 @@ function generateSingleNodeIncoming(NodeID){
         createlinks(data,testData,oldLink,k);
     }
     }
-    console.log(testData.links);
+    
 
     /*
 This for loop iterates over the nodes array in the JSON data and converts it into a format
@@ -842,7 +843,7 @@ function generateSecurityGroup(securityGroups) {
       createCategories(testData)
       setValuesOfPorts(testData)
 
-      console.log(testData);
+      
 
       loadChart(testData);
     });
@@ -906,7 +907,7 @@ function generateMultipleSecurityGroups(securityGroups) {
           numberOfnodes++;
         }
       }
-      console.log(testData);
+      
 
       //Create categories
       createCategories(testData)

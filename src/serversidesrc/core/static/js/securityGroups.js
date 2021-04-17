@@ -459,7 +459,7 @@ function generateSecurityGroup(securityGroups) {
       createCategories(testData)
 
       setValuesOfPorts(testData)
-      console.log(testData);
+      
 
       loadChart(testData);
     });
@@ -521,7 +521,7 @@ function generateMultipleSecurityGroups(securityGroups) {
           numberOfnodes++;
         }
       }
-      console.log(testData);
+      
 
       //Create categories
       createCategories(testData)

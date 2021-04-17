@@ -175,7 +175,7 @@ function setValuesOfPorts(testData)
 
       }
     }
-    // console.log(valueString);
+    
     testData.links[x]["value"]=valueString
   }
 }
@@ -415,7 +415,8 @@ It then adds it to the testData.links array depending on whether or not the link
       var i;
       var numberOfnodes = 0;
 
-      console.log(data)
+     
+
       for (i = 0; i < data.nodes.length; i++) 
       {
 
@@ -454,7 +455,7 @@ It then adds it to the testData.links array depending on whether or not the link
       //Create categories
       createCategories(testData)
       setValuesOfPorts(testData)
-      console.log(testData);
+      
 
       loadChart(testData);
     });
