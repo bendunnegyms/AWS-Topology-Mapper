@@ -21,7 +21,11 @@ def ec2_instances_to_frontend_format(security_groups_data, instances_data):
         for instance in instances:
             instance_id = instance["InstanceId"]
             instance_name = instance["KeyName"]
-            instance_IP = instance["PrivateIpAddress"]
+            try:
+                instance_IP = instance["PrivateIpAddress"]
+            except Exception as e:
+                print("No private IP Address in instance. Set to -1 - ", instance_id)
+                instance_IP = -1
             instance_sgs = instance["SecurityGroups"]
             
             instance_outbound = []
