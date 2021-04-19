@@ -448,7 +448,7 @@ generateMultipleSecurityGroups(securityGroup Input Array)
 
 function generateEntireGraph() 
 {
-  fetch("work.json")
+  fetch("graph_data")
     .then((response) => response.json())
     .then((data) => {
       clearGlobalArrays();
@@ -514,7 +514,7 @@ It then adds it to the testData.links array depending on whether or not the link
 
 
 function generateSingleNode(NodeID){
-  fetch("work.json")
+  fetch("graph_data")
   .then((response) => response.json())
   .then((data) => {
     clearGlobalArrays();

@@ -401,7 +401,7 @@ generateMultipleSecurityGroups(securityGroup Input Array)
 
 
 function generateMultiplePorts(portsArray) {
-  fetch("work.json")
+  fetch("graph_data")
     .then((response) => response.json())
     .then((data) => {
       clearGlobalArrays();

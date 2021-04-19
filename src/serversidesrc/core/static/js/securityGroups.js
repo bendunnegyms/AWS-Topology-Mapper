@@ -412,7 +412,7 @@ generateMultipleSecurityGroups(securityGroup Input Array)
 */
 
 function generateSecurityGroup(securityGroups) {
-  fetch("work.json")
+  fetch("graph_data")
     .then((response) => response.json())
     .then((data) => {
       clearGlobalArrays();
@@ -467,7 +467,7 @@ function generateSecurityGroup(securityGroups) {
 
 
 function generateMultipleSecurityGroups(securityGroups) {
-  fetch("work.json")
+  fetch("graph_data")
     .then((response) => response.json())
     .then((data) => {
       clearGlobalArrays();
