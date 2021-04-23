@@ -17,3 +17,49 @@
 	`cd src/serversidesrc` to navigate to the correct directory.  \
 	`python3 manage.py runserver` to run the server as it is.  \
 	The server will be running at **localhost:8000/**.  
+
+## General Functionality
+* User Interface:
+	The charts are created using Echarts, HTTP GET requests are sent to /graph_data/ to retrieve the json data. \
+	The graphs take a while to load due to the amount of links that are needed to be rendered. \
+	Pressing enter after making an input will cause the graph to render with those parameters. \
+	Page needs to be refreshed to clear the graph due to a javascript bug we didn't have time to fix. \
+
+* Server-side:
+	All scripts are contained in /src/serversidesrc/core/apisrc/. \
+	All scripts labelled `describe_xxx_xxx.py` contain functions that make API requests, and return the data as a string. \
+	All scripts labelled `xxx_to_frontend.py` contain functions that format the data returned by the `describe_xxx_xxx.py` scripts into json blocks in the format:
+	```json
+	{
+		"InstanceId":  "i-123456789",
+		"Name": "instance_name",
+		"PrivateIpAddress": "1.2.3.4",
+		"OutboundAccess": [
+			{
+				"Destination": "0.0.0.0/0",
+				"Protocol": "-1",
+				"Ports": "-1"
+			}
+		],
+		"InboundAccess": [
+			{
+				"Source": "i-987654321",
+				"Protocol": "TCP",
+				"Port": 80
+			},
+			{
+				"Source": "i-987654321",
+				"Protocol": "TCP",
+				"Port": 443
+			},
+			{
+				"Source": "sg-123456789",
+				"Protocol": "UDP",
+				"Port": 123
+			}
+		]
+	}
+	``` \
+	A single script `compile_data.py` will create a json file in the format needed for Echarts network graphs using the above formats. \
+	The file `views.py` contains definitions for REST API endpoints which, when called, call the above functions. \
+	Migrations and sqlite database are depreciated, so are the models contained in `models.py`. \
