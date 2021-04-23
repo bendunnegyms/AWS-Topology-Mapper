@@ -59,7 +59,8 @@
 			}
 		]
 	}
-	``` \
+	``` 
+	
 	A single script `compile_data.py` will create a json file in the format needed for Echarts network graphs using the above formats. \
 	The file `views.py` contains definitions for REST API endpoints which, when called, call the above functions. \
 	Migrations and sqlite database are depreciated, so are the models contained in `models.py`. \
